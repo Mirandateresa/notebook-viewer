@@ -29,11 +29,14 @@ function App() {
           />
         )}
       </main>
-      <p className="footer-links">
-  <span>Backend: <a href="{config.API_URL}" target="_blank" rel="noopener noreferrer">localhost:8000</a></span>
-  <span className="separator">•</span>
-  <span>API: <a href="{config.API_URL}/api/notebooks" target="_blank" rel="noopener noreferrer">/api/notebooks</a></span>
-</p>
+      <footer className="footer">
+        <div className="footer-content">
+          <p>📓 Notebook Viewer • Desarrollado con FastAPI y React</p>
+          <p className="footer-links">
+            <span>Backend: <a href={config.API_URL} target="_blank" rel="noopener noreferrer">{config.API_URL}</a></span>
+            <span className="separator">•</span>
+            <span>API: <a href={`${config.API_URL}/api/notebooks`} target="_blank" rel="noopener noreferrer">/api/notebooks</a></span>
+          </p>
         </div>
       </footer>
     </div>
