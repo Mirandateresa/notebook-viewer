@@ -11,9 +11,8 @@ backend/pip-log.txt
 backend/pip-delete-this-directory.txt
 
 # Notebooks (no subir los archivos reales)
-backend/notebooks/
-notebooks/
-
+# backend/notebooks/
+# notebooks/
 # Entorno virtual
 mi_entorno/
 venv/
