@@ -1,75 +1,79 @@
 import React, { useState, useEffect } from 'react';
 import './FileSelector.css';
+import config from '../config';  // <-- AGREGAR ESTA LÍNEA
 
-const FileSelector = ({ onSelectNotebook }) => {
+function FileSelector({ onSelectNotebook }) {
   const [notebooks, setNotebooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   // En FileSelector.jsx, la función fetchNotebooks debería verse así:
-useEffect(() => {
   const fetchNotebooks = async () => {
     try {
-      const response = await fetch('http://localhost:8000/api/notebooks');
+      const response = await fetch(`${config.API_URL}/api/notebooks`);  // <-- CAMBIAR AQUÍ
       if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status}`);
+        throw new Error(`Error ${response.status}: ${response.statusText}`);
       }
       const data = await response.json();
-      
-      // Asegúrate de usar el campo correcto
-      // La API devuelve objetos con {filename, size, path, ...}
       setNotebooks(data);
-      
+      setLoading(false);
     } catch (err) {
-      setError('Error al cargar los notebooks: ' + err.message);
-      console.error('Error:', err);
-    } finally {
+      console.error('Error fetching notebooks:', err);
+      setError(err.message);
       setLoading(false);
     }
   };
 
-  fetchNotebooks();
-}, []);
+  useEffect(() => {
+    fetchNotebooks();
+  }, []);
+
   if (loading) {
     return (
-      <div className="loading">
-        <p>Cargando notebooks...</p>
+      <div className="file-selector">
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Cargando notebooks...</p>
+        </div>
       </div>
     );
   }
 
   if (error) {
     return (
-      <div className="error">
-        <p>{error}</p>
-        <p>Verifica que el backend esté corriendo en http://localhost:8000</p>
+      <div className="file-selector">
+        <div className="error-container">
+          <h3>Error al cargar los notebooks</h3>
+          <p>{error}</p>
+          <p>Verifica que el backend esté corriendo en {config.API_URL}</p>  {/* <-- CAMBIAR AQUÍ */}
+          <button onClick={fetchNotebooks} className="retry-button">
+            Reintentar
+          </button>
+        </div>
       </div>
     );
   }
 
   return (
     <div className="file-selector">
-      <h2>Selecciona un Notebook</h2>
-      {notebooks.length === 0 ? (
-        <p>No se encontraron notebooks en el directorio.</p>
-      ) : (
-        <div className="notebook-list">
-          {notebooks.map((notebook, index) => (
-            <div 
-              key={index}
-              className="notebook-item"
-              onClick={() => onSelectNotebook(notebook.filename || notebook)}
-            >
-              <div className="notebook-icon">📓</div>
-              <div className="notebook-name">
-                {typeof notebook === 'string' ? notebook : notebook.filename}
-              </div>
+      <h2>📓 Notebooks Disponibles</h2>
+      <div className="notebooks-grid">
+        {notebooks.map((notebook) => (
+          <div
+            key={notebook.filename}
+            className="notebook-card"
+            onClick={() => onSelectNotebook(notebook.filename)}
+          >
+            <div className="notebook-icon">📓</div>
+            <div className="notebook-info">
+              <h3>{notebook.filename}</h3>
+              <p>Tamaño: {(notebook.size / 1024).toFixed(2)} KB</p>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
-};
+}
 
 export default FileSelector;

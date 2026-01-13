@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import config from "../config";
 import './NotebookViewer.css';
 
 const NotebookViewer = ({ filename, onBack }) => {
@@ -11,7 +12,7 @@ const NotebookViewer = ({ filename, onBack }) => {
     const fetchNotebook = async () => {
       try {
         console.log('🔍 Fetching notebook:', filename);
-        const response = await fetch(`http://localhost:8000/api/notebooks/${filename}`);
+        const response = await fetch(`${config.API_URL}/api/notebooks/${filename}`);
         
         if (!response.ok) {
           throw new Error(`Error HTTP: ${response.status}`);

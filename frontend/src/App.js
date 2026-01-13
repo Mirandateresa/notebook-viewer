@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import config from "./config";
 import Header from './components/Header';
 import FileSelector from './components/FileSelector';
 import NotebookViewer from './components/NotebookViewer';
@@ -28,14 +29,11 @@ function App() {
           />
         )}
       </main>
-      <footer className="footer">
-        <div className="footer-content">
-          <p>📓 Notebook Viewer • Desarrollado con FastAPI y React</p>
-          <p className="footer-links">
-            <span>Backend: <a href="http://localhost:8000" target="_blank" rel="noopener noreferrer">localhost:8000</a></span>
-            <span className="separator">•</span>
-            <span>API: <a href="http://localhost:8000/api/notebooks" target="_blank" rel="noopener noreferrer">/api/notebooks</a></span>
-          </p>
+      <p className="footer-links">
+  <span>Backend: <a href="{config.API_URL}" target="_blank" rel="noopener noreferrer">localhost:8000</a></span>
+  <span className="separator">•</span>
+  <span>API: <a href="{config.API_URL}/api/notebooks" target="_blank" rel="noopener noreferrer">/api/notebooks</a></span>
+</p>
         </div>
       </footer>
     </div>
