@@ -4,6 +4,9 @@ import json
 import os
 from pathlib import Path
 from typing import List, Dict, Any
+print(f"=== Starting Flask app ===")
+print(f"PORT: {os.environ.get('PORT', 8000)}")
+print(f"Environment: {os.environ.get('RENDER', 'development')}")
 
 app = FastAPI(title="Notebook Viewer API")
 
