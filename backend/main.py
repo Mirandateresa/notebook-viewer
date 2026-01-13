@@ -168,3 +168,15 @@ def health_check():
         "notebooks_directory": str(NOTEBOOKS_DIR),
         "directory_exists": NOTEBOOKS_DIR.exists()
     }
+if __name__ == "__main__":
+    import os
+    port = int(os.environ.get("PORT", 8000))
+    
+    # Para desarrollo local
+    if os.environ.get("RENDER"):
+        # En producción, usar uvicorn programáticamente
+        import uvicorn
+        uvicorn.run(app, host="0.0.0.0", port=port)
+    else:
+        # Desarrollo local
+        app.run(host="0.0.0.0", port=port, debug=True)
