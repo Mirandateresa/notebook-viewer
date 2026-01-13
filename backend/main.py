@@ -24,7 +24,16 @@ app.add_middleware(
     allow_headers=["*"],  # Todos los headers
 )
 # Ruta a los notebooks REALES
-NOTEBOOKS_DIR = Path("/home/teresa/Simulacion/notebook-viewer/backend/notebooks")
+from pathlib import Path
+import os
+
+BASE_DIR = Path(__file__).parent  # Directorio actual (donde está main.py)
+NOTEBOOKS_DIR = BASE_DIR / "notebooks"
+
+# Crear directorio si no existe
+NOTEBOOKS_DIR.mkdir(exist_ok=True)
+print(f"📁 Notebooks directory: {NOTEBOOKS_DIR}")
+print(f"📁 Directory exists: {NOTEBOOKS_DIR.exists()}")
 
 @app.get("/")
 def home():
