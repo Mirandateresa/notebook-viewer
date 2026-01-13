@@ -10,15 +10,19 @@ print(f"Environment: {os.environ.get('RENDER', 'development')}")
 
 app = FastAPI(title="Notebook Viewer API")
 
-# Configurar CORS
+# Configurar CORS para desarrollo local Y producción
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://localhost:3001", "http://localhost:2808"],
+    allow_origins=[
+        "http://localhost:3000",      # React dev server 1
+        "http://localhost:3001",      # React dev server 2  
+        "http://localhost:2808",      # Otro puerto local
+        "https://notebook-viewer-1.onrender.com"  # ← ¡AGREGA ESTA LÍNEA!
+    ],
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["*"],  # GET, POST, PUT, DELETE, etc.
+    allow_headers=["*"],  # Todos los headers
 )
-
 # Ruta a los notebooks REALES
 NOTEBOOKS_DIR = Path("/home/teresa/Simulacion/notebook-viewer/backend/notebooks")
 
